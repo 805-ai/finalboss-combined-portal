@@ -10,11 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npm install
-      - run: npm run build
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: |
+          cd finalboss-licensing-portal
+          npm install
+          npm run build
       - run: |
           npm install -g netlify-cli
-          netlify deploy --prod --dir=.next \
+          netlify deploy --prod --dir=finalboss-licensing-portal \
             --auth=$NETLIFY_AUTH_TOKEN \
             --site=$NETLIFY_SITE_ID
         env:
