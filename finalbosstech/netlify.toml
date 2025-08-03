@@ -1,0 +1,10 @@
+[build]
+  # There is no build step for this simple static site. You could run
+  # a build command here if using a framework like React or Next.js.
+  command = "echo 'No build needed'"
+  # Publish the root directory (contains index.html)
+  publish = "."
+
+[functions]
+  # Directory where Netlify looks for serverless functions
+  directory = "netlify/functions"
