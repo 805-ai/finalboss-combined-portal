@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Final Boss Tech NDA Upload</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      text-align: center;
+    }
+    #consent {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    #consent.hidden {
+      display: none;
+    }
+    #status {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    button {
+      margin-right: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Final Boss Tech NDA Upload</h1>
+  <p>Please select your NDA file to upload. Supported formats: PDF, DOC, DOCX.</p>
+  <input type="file" id="fileInput" accept=".pdf,.doc,.docx" />
+  <div id="consent" class="hidden">
+    <p>
+      Before uploading, you must consent to our terms. By clicking "Accept &
+      Upload" you agree that Final Boss Tech may store and process your NDA
+      securely and use the information contained within to evaluate potential
+      partnership opportunities. If you decline, your file will not be
+      uploaded.
+    </p>
+    <button id="acceptBtn">Accept & Upload</button>
+    <button id="declineBtn">Decline</button>
+  </div>
+  <div id="status"></div>
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const consentDiv = document.getElementById('consent');
+    const acceptBtn = document.getElementById('acceptBtn');
+    const declineBtn = document.getElementById('declineBtn');
+    const statusDiv = document.getElementById('status');
+    let selectedFile;
+
+    fileInput.addEventListener('change', (e) => {
+      selectedFile = e.target.files[0];
+      if (selectedFile) {
+        consentDiv.classList.remove('hidden');
+        statusDiv.textContent = '';
+      }
+    });
+
+    declineBtn.addEventListener('click', () => {
+      consentDiv.classList.add('hidden');
+      statusDiv.textContent = 'Upload cancelled. You did not consent.';
+      fileInput.value = '';
+      selectedFile = null;
+    });
+
+    acceptBtn.addEventListener('click', async () => {
+      if (!selectedFile) return;
+      statusDiv.textContent = 'Uploading...';
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      try {
+        const res = await fetch('/.netlify/functions/uploadNDA', {
+          method: 'POST',
+          body: formData,
+        });
+        const data = await res.json();
+        if (res.ok) {
+          statusDiv.textContent =
+            'Upload successful. ' + (data.message || 'Thank you for submitting your NDA.');
+        } else {
+          statusDiv.textContent = 'Error uploading file: ' + (data.error || res.status);
+        }
+      } catch (err) {
+        statusDiv.textContent = 'Error uploading file: ' + err;
+      } finally {
+        consentDiv.classList.add('hidden');
+        fileInput.value = '';
+        selectedFile = null;
+      }
+    });
+  </script>
+</body>
+</html>
