@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IP Licensing Portal</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>IP Licensing Portal</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="summary">
+        <h2>Patent Summary</h2>
+        <p>
+          Our invention introduces a blockchain‑based dynamic consent management system
+          designed to govern the lifecycle of synthetic media such as deepfakes and
+          AI‑generated imagery. It employs a hierarchical consent data structure
+          with parent–child relationships to manage derivative works efficiently.
+          Smart contracts generate unique consent identifiers using SHA‑256 hashing
+          while storing comprehensive consent documents off‑chain via IPFS. To
+          preserve privacy, zero‑knowledge proof circuits (zk‑SNARKs) allow
+          verification of consent conditions without revealing the underlying
+          agreement or personally identifiable information. A decentralized oracle
+          network supplies real‑time contextual data—such as viral content
+          thresholds, geographic usage and content classification—to trigger
+          automatic modification of consent parameters. Together, these
+          innovations enable secure, scalable and transparent management of
+          consent acquisition, verification and lifecycle governance for synthetic
+          media.
+        </p>
+      </section>
+
+      <section id="request-form">
+        <h2>Request a License</h2>
+        <form id="licenseForm">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="use">Intended Use</label>
+          <textarea id="use" name="use" rows="4" required></textarea>
+
+          <label for="duration">License Duration</label>
+          <select id="duration" name="duration" required>
+            <option value="">Select duration…</option>
+            <option value="6 months">6 months</option>
+            <option value="1 year">1 year</option>
+            <option value="3 years">3 years</option>
+            <option value="perpetual">Perpetual</option>
+          </select>
+
+          <label class="checkbox">
+            <input type="checkbox" id="terms" required /> I agree to the
+            <a href="#" target="_blank">terms and conditions</a>.
+          </label>
+
+          <button type="submit">Submit Request</button>
+        </form>
+
+        <div id="licenseOutput" class="hidden">
+          <h3>Your Draft License</h3>
+          <pre id="licenseText"></pre>
+          <button id="closeLicense">Close</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 IP Licensing Portal. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
