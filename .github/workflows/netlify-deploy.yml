@@ -1,4 +1,4 @@
-name: Deploy to Netlify
+name: Deploy static site to Netlify
 
 on:
   push:
@@ -9,19 +9,14 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v2
         with:
-          node-version: '18'
-      - run: |
-          cd finalboss-licensing-portal
-          npm install
-          npm run build
-      - run: |
-          npm install -g netlify-cli
-          netlify deploy --prod --dir=finalboss-licensing-portal \
-            --auth=$NETLIFY_AUTH_TOKEN \
-            --site=$NETLIFY_SITE_ID
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          publish-dir: ./finalboss-licensing-portal
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
