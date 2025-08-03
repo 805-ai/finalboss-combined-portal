@@ -1,0 +1,10 @@
+[build]
+  publish = "."
+  command = ""
+
+[# Netlify Functions configuration]
+# Point Netlify to the folder containing our serverless functions.  Without
+# this section, Netlify will still pick up functions from the default
+# directory, but specifying it explicitly makes the intent clear.
+[functions]
+  directory = "netlify/functions"
