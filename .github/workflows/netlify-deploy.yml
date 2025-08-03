@@ -2,7 +2,7 @@ name: Deploy to Netlify
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
@@ -13,7 +13,11 @@ jobs:
         with:
           node-version: '18'
       - run: npm install -g netlify-cli
-      - run: netlify deploy --dir=finalboss-licensing-portal --prod
+      - run: |
+          cd finalboss-licensing-portal
+          npm install
+          npm run build
+      - run: netlify deploy --dir=finalboss-licensing-portal/.next --prod
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
